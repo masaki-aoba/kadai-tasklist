@@ -30,10 +30,6 @@ class TasksController < ApplicationController
     end
   end
 
-
-
-  
-  
   def edit
   end
   
@@ -49,7 +45,6 @@ class TasksController < ApplicationController
   
   def destroy
     @task.destroy
-
     flash[:success] = 'Task は正常に削除されました'
     redirect_back(fallback_location: root_url)
   end
