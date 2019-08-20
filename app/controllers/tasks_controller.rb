@@ -54,7 +54,7 @@ class TasksController < ApplicationController
 
   def set_task
     @task = Task.find(params[:id])
-    unless @task
+    if @task.blank?
       flash[:notice] = "指定された番号に該当するタスクがありません。"
       redirect_to root_url
     end
