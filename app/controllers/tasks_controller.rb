@@ -1,8 +1,6 @@
 class TasksController < ApplicationController
-   before_action :set_task, only: [:show, :update, :destroy]
-   before_action :require_user_logged_in
-   before_action :correct_user, only: [:destroy]
-   before_action :ensure_correct_user, only: [:show, :update, :destroy]
+  before_action :require_user_logged_in
+  before_action :ensure_correct_user, only: [:show, :edit, :update, :destroy]
 
   
   def index
@@ -51,15 +49,6 @@ class TasksController < ApplicationController
   end
   
   private
-
-  def set_task
-    @task = Task.find(params[:id])
-    if @task.blank?
-      flash[:notice] = "指定された番号に該当するタスクがありません。"
-      redirect_to root_url
-    end
-  end
-
   # Strong Parameter
   def task_params
     params.require(:task).permit(:content, :status)
@@ -70,5 +59,20 @@ class TasksController < ApplicationController
     unless @task
       redirect_to root_url
     end
+  end
+  def ensure_correct_user
+    @task = Task.find_by(id: params[:id])
+    # 攻撃者に余計な情報は与えない
+    if @task.nil? || @task.user != current_user
+      flash[:notice] = "権限がありません。"
+      redirect_to root_url
+    end
+    # if @task.nil?
+    #   flash[:notice] = "権限がありません。"
+    #   redirect_to root_url
+    # elsif @task.user_id != @current_user.id
+    #   flash[:notice] = "権限がありません"
+    #   redirect_to root_url
+    # end
   end
 end
