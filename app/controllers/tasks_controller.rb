@@ -25,7 +25,7 @@ class TasksController < ApplicationController
     else
       @task = current_user.tasks.order(id: :desc).page(params[:page])
       flash.now[:danger] = 'メッセージの投稿に失敗しました。'
-      render root_url
+      render 'tasks/new'
     end
   end
 
