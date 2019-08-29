@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :require_user_logged_in
-  before_action :ensure_correct_user, only: [:show, :update, :destroy]
+  before_action :ensure_correct_user, only: [:show, :edit, :update, :destroy]
 
   
   def index
@@ -26,6 +26,9 @@ class TasksController < ApplicationController
       flash.now[:danger] = 'メッセージの投稿に失敗しました。'
       render :new
     end
+  end
+  
+  def edit
   end
 
   def update
